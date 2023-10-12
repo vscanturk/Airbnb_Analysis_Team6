@@ -3,9 +3,11 @@ TEMP = ../../gen/temp
 
 all: $(TEMP)/listings_cleaned.csv $(TEMP)/data_exploration.html
 
-$(DATA)/listings.csv $(DATA)/reviews.csv $(DATA)/calendar.csv: download_data.R
+$(DATA)/listings.csv $(DATA)/reviews.csv $(DATA)/calendar.csv: download_data.R install_packages.R
 	R -e "dir.create('$(DATA)', recursive = TRUE)"
+	R --vanilla < install_packages.R
 	R --vanilla < download_data.R
+
 
 $(TEMP)/listings_cleaned.csv: $(DATA)/listings.csv $(DATA)/reviews.csv $(DATA)/calendar.csv clean_data.R
 	R -e "dir.create('$(TEMP)', recursive = TRUE)"
